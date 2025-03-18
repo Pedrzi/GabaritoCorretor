@@ -1,5 +1,5 @@
 from GUI.top_level_window import TopLevelWindow
-from tkinter import ttk
+from tkinter import ttk, filedialog
 import tkinter as tk
 from GUI.functions import set_page_size
 from PIL import Image, ImageTk
@@ -189,20 +189,45 @@ class ImageViewer(tk.Tk):
             canvas_y = self.img_y - (self.original_height / 2) + (y * self.zoom_factor)
             self.canvas.create_oval(canvas_x - 5, canvas_y - 5, canvas_x + 5, canvas_y + 5, outline="red", width=2, tags="circle")
 
-class ScannerConfig(TopLevelWindow):
-    def __init__(self, title: str, root: tk.Tk):
-        self.title: str = title
-        self.root: tk.Tk = root
+        if len(self.circles) == 2:
+            self.draw_square()
 
-        super().__init__(root=self.root, title=self.title)
+        self.update_confirm_button()
 
-        self._close_button()
-        ttk.Label(self.mainframe, text="Selecionar gabarito")
-        self._create_button(0, "Selecionar", button_command=)
+    def draw_square(self):
+        """ Draws a square using the two placed circles """
+        if len(self.circles) != 2:
+            return
 
-    def _close_button(self):
-        close_button = ttk.Button(self.mainframe, text="Fechar", command=self.toplevel_window.destroy)
-        close_button.grid(column=1, row=1, sticky=(tk.W, tk.E))
+        x1, y1 = self.circles[0]
+        x2, y2 = self.circles[1]
 
+        self.canvas.create_rectangle(
+            self.img_x - (self.original_width / 2) + (x1 * self.zoom_factor),
+            self.img_y - (self.original_height / 2) + (y1 * self.zoom_factor),
+            self.img_x - (self.original_width / 2) + (x2 * self.zoom_factor),
+            self.img_y - (self.original_height / 2) + (y2 * self.zoom_factor),
+            outline="blue", width=2, tags="square"
+        )
 
+    def update_confirm_button(self):
+        """ Enables confirm button only when 2 circles are present """
+        self.confirm_button.config(state=tk.NORMAL if len(self.circles) == 2 else tk.DISABLED)
 
+    def confirm_selection(self):
+        """ Prints the confirmed square coordinates """
+        print(f"Confirmed Square: {self.circles[0]} -> {self.circles[1]}")
+
+    def update_mouse_coordinates(self, event):
+        """ Updates the status bar with mouse coordinates in image pixels """
+        if not self.image:
+            self.status_bar.config(text="Mouse: (---, ---)")
+            return
+
+        image_x = (event.x - self.img_x + (self.original_width / 2)) / self.zoom_factor
+        image_y = (event.y - self.img_y + (self.original_height / 2)) / self.zoom_factor
+
+        if 0 <= image_x < self.original_width and 0 <= image_y < self.original_height:
+            self.status_bar.config(text=f"Mouse: ({int(image_x)}, {int(image_y)})")
+        else:
+            self.status_bar.config(text="Mouse: Outside Image")

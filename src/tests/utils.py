@@ -2,10 +2,6 @@ import json
 import os
 from copy import deepcopy
 
-from freezegun import freeze_time
-
-from main import entry_point_for_args
-
 FROZEN_TIMESTAMP = "1970-01-01"
 
 
@@ -18,19 +14,6 @@ def setup_mocker_patches(mocker):
 
     mock_wait_key = mocker.patch("cv2.waitKey")
     mock_wait_key.return_value = ord("q")
-
-
-def run_entry_point(input_path, output_dir):
-    args = {
-        "autoAlign": False,
-        "debug": False,
-        "input_paths": [input_path],
-        "output_dir": output_dir,
-        "setLayout": False,
-        "silent": True,
-    }
-    with freeze_time(FROZEN_TIMESTAMP):
-        entry_point_for_args(args)
 
 
 def write_modified(modify_content, boilerplate, sample_json_path):

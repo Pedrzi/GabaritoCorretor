@@ -20,6 +20,6 @@ class Vector2D:
     x: int
     y: int
 
-    def __call__(self) -> list[int]:
-        return [self.x, self.y]
+    def __call__(self) -> tuple[int, int]:
+        return self.x, self.y
 

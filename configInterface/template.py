@@ -1,7 +1,7 @@
 from configInterface.preprocessors import PreProcessor
-from configInterface.utils import Utils
+from utils import Utils
 from dataclasses import dataclass, field
-from configInterface.utils import Vector2D
+from utils import Vector2D
 
 
 @dataclass
