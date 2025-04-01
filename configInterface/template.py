@@ -114,5 +114,3 @@ class Template:
     @preprocessor.setter
     def preprocessor(self, preprocessor: PreProcessor) -> None:
         self._preprocessors.append(preprocessor)
-
-current_template = Template()

@@ -1,11 +1,10 @@
 import sys
-import tkinter as tk
 from GUI.main_window import CorretorGui
-from configInterface.settings import current_settings
+from configInterface.initializer import settings
 from src.entry import entry_point
 
 
-def args_entry_point(args: current_settings.properties_holder.properties) -> None:
+def args_entry_point(args: settings.properties_holder.properties) -> None:
     if args["debug"] is True:
         # Disable tracebacks
         sys.tracebacklimit = 0

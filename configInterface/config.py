@@ -37,5 +37,3 @@ class Config:
         if level < 0:
             raise ValueError("Image level must be a non-negative integer.")
         self._image_level = level
-
-current_config = Config()

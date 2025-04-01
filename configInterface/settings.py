@@ -1,12 +1,14 @@
-from dataclasses import  dataclass
-from configInterface.propertysetter import PropertySetter
+from configInterface.config import  Config
+from configInterface.args import Args
 from configInterface.template import Template
+from utils import Vector2D
 
 
 class Settings:
     def __init__(self):
-        self.properties_holder: PropertySetter = PropertySetter()
+        self.properties_holder: Args = Args()
         self.template_holder: Template = Template()
+        self.config_holder: Config = Config()
 
 
     @property
@@ -27,5 +29,20 @@ class Settings:
         if isinstance(value, str):
             self.properties_holder.output_path = value
 
+    @property
+    def page_dimensions(self):
+        return self.template_holder.page_dimensions
 
-current_settings: Settings = Settings()
+    @page_dimensions.setter
+    def page_dimensions(self, value: Vector2D):
+        if isinstance(value, Vector2D):
+            self.template_holder.page_dimensions = value
+
+    @property
+    def bubble_dimensions(self):
+        return self.template_holder.bubble_dimensions
+
+    @bubble_dimensions.setter
+    def bubble_dimensions(self, value):
+        if isinstance(value, Vector2D):
+            self.template_holder.bubble_dimensions = value

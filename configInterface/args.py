@@ -2,7 +2,7 @@ from dataclasses import dataclass, field, KW_ONLY
 
 
 @dataclass
-class PropertySetter:
+class Args:
     _: KW_ONLY
     _input_path: str = "Nothing"
     _output_path: str = "Nothing"
